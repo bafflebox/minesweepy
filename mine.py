@@ -34,11 +34,11 @@ class Field:
 			o = "|"
 			while x < self.width:
 				index = y * self.height + x
-				o = o + " " + str(self.DrawCharacter( self.field_data[ index ], index ))
-				x = x + 1
-			o = o + " |"
+				o += " " + str(self.DrawCharacter( self.field_data[ index ], index ))
+				x += 1
+			o += " |"
 			print o
-			y = y + 1
+			y += 1
 
 	def DrawCharacter(self, cell, index):
 		val = self.IterateField(cell, index)
