@@ -25,10 +25,7 @@ class Field:
 		self.field_data = []
 		self.corners = []
 
-		cell = 0
-		while cell < self.total_cells:
-			self.field_data.append(0)
-			cell = cell + 1
+		self.field_data = [0 for i in range(self.total_cells)]
 
 	def Draw(self):
 		y = 0
