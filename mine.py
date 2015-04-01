@@ -28,19 +28,16 @@ class Field:
 		self.field_data = [0 for i in range(self.total_cells)]
 
 	def Draw(self):
-		y = 0
-		while y < self.height:
-			x = 0
+		for y in range(0, self.height):
 			o = "|"
-			while x < self.width:
+			for x in range(0, self.width):
 				index = y * self.height + x
-				o += " " + str(self.DrawCharacter( self.field_data[ index ], index ))
-				x += 1
+				o += " " + str(self.DrawCharacter( index ))
 			o += " |"
 			print o
-			y += 1
 
-	def DrawCharacter(self, cell, index):
+	def DrawCharacter(self, index):
+		cell = self.field_data[ index ]
 		val = self.IterateField(cell, index)
 		if cell == -1:
 			return "\033[91m@\033[0m"
