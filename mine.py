@@ -27,7 +27,7 @@ class Field:
 
 		self.field_data = [0 for i in range(self.total_cells)]
 
-	def Draw(self):
+	def Draw(self, show = False):
 		for y in range(0, self.height):
 			o = "|"
 			for x in range(0, self.width):
@@ -36,12 +36,12 @@ class Field:
 			o += " |"
 			print o
 
-	def DrawCharacter(self, index):
+	def DrawCharacter(self, index, show = False):
 		cell = self.field_data[ index ]
 		val = self.IterateField(cell, index)
 		if cell == -1:
 			return "\033[91m@\033[0m"
-		elif val and cell == 0:
+		elif val and cell == 0 and bool(show):
 			return str(val)
 		else:
 			return "."
@@ -60,9 +60,8 @@ class Field:
 				self.field_data[index] = -1
 		random.shuffle(self.field_data)
 
-	def IterateField(self, cell, index):
+	def getNeighbours(self, index):
 		f = self.field_data
-
 		def set_location(index):
 			try:
 				n = f[index]
@@ -114,6 +113,11 @@ class Field:
 		elif index > row * (col-1):
 			new_range = [left, topleft, top, topright, right]
 
+		return new_range
+
+	def IterateField(self, cell, index):
+		new_range = self.getNeighbours(cell, index)
+
 		for neighbour in new_range:
 			if neighbour == -1:
 				cell += 1
@@ -123,11 +127,32 @@ class Field:
 
 os.system("clear")
 
+
+def select(cell):
+	if field.field_data[cell] < 0:
+		return True
+	else:
+		empty_neighbour = True
+		empty_cells = []
+		leaf = 0
+		while(empty_neighbour):
+			for tree in field.getNeighbours(cell):
+				for branch in field.getNeighbours(tree):
+					for twig in field.getNeighbours(branch):
+						if twig == 0:
+							leaf += 1
+						else:
+							empty_neighbour = False
+
 field = Field(s,s)
 
 field.PopulateField()
 print "+-" + ((field.width) * "--") + "+"
-field.Draw()
+if select(int((field.width/2)*(field.height/2))):
+	field.Draw(True)
+else:
+	field.Draw(False)
+
 print "+-" + ((field.width) * "--") + "+"
 print
 print "Syntax: python mine.py \033[93mdifficulty \033[96mrow-length\033[0m"
