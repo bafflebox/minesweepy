@@ -49,7 +49,6 @@ class Field:
 			return "\033[91m@\033[0m"
 		elif val and cell == 0:
 			return str(val)
-			# return "."
 		else:
 			return "."
 
