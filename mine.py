@@ -57,18 +57,12 @@ class Field:
 		# Take 20% of the total field
 		total_mines = round(self.total_cells / 100.0 * (10 * difficulty))
 
-		# Display total mines to distribute
-		# print "Amount of mines planned (20%): " + str(total_mines)
-
-		# Find a random cell
-		# print "Mines remaining: "
 		while total_mines != 0:
 			random.seed(int(round(time.time() * 1000.0)))
 			randnum = random.randrange(1, self.total_cells*2)
 			index = int(round(randnum/2))
 
 			if self.field_data[index] == 0 and randnum % 2 == 0:
-				# print str(total_mines) + " : " + str(index)
 				total_mines = total_mines - 1
 				self.field_data[index] = -1
 		random.shuffle(self.field_data)
@@ -90,15 +84,11 @@ class Field:
 		top = set_location(index - row)
 		topright = set_location(index - row + 1)
 		topleft = set_location(index - row - 1)
-		# bottom = set_location(index + row)
-		# bottomright = set_location(index + row + 1)
-		# bottomleft = set_location(index + row - 1)
 		bottom = set_location(index + row)
 		bottomright = set_location(index + row + 1)
 		bottomleft = set_location(index + row - 1)
 		new_range = [left, topleft, top, topright, right, bottomright, bottom, bottomleft]
 		
-		# print index
 		# Top left corner
 		if index == 0:
 			new_range = [right, bottomright, bottom]
@@ -142,14 +132,10 @@ os.system("clear")
 
 field = Field(s,s)
 
-# print "Total amount of cells in field: " + str(field.total_cells)
-# print
-
 field.PopulateField()
 print "+-" + ((field.width) * "--") + "+"
 field.Draw()
 print "+-" + ((field.width) * "--") + "+"
 print
-# print field.field_data
 print "Syntax: python mine.py \033[93mdifficulty \033[96mrow-length\033[0m"
 print "Eg.: python mine.py \033[93m1 \033[96m20\033[0m"
